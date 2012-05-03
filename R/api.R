@@ -18,23 +18,27 @@ getFeedInfo <- function(feed, key) {
 	return(info)
 }
 
-getDatastream <- function(feed, datastream, key) {
+getDatapoint <- function(feed, datastream, key) {
+	require(zoo)
 	url <- datastreamUrl(feed, datastream, format='csv')
 	request.header <- c(`X-PachubeApiKey`=key)
 	response.content <- getURLContent(url, httpheader=request.header)
 	dat <- read.csv(textConnection(response.content), header=FALSE, stringsAsFactors=FALSE)
 	names(dat) <- c('Timestamp', datastream)
-	dat <- transform(dat, Timestamp = decode.ISO8601(Timestamp))
-	return(dat)
+	times <- decode.ISO8601(dat$Timestamp)
+	z <- zoo(dat[,datastream], order.by=times)
+	return(z)
 }
 
 queryDatastream <- function(feed, datastream, key, ...) {
+	require(zoo)
 	url <- datastreamUrl(feed, datastream, format='csv')
 	request.header <- c(`X-PachubeApiKey`=key)
 	request.options <- curlOptions(httpheader=request.header)
 	response.content <- getForm(url, ..., .opts = request.options)
 	dat <- read.csv(textConnection(response.content), header=FALSE, stringsAsFactors=FALSE)
 	names(dat) <- c('Timestamp', datastream)
-	dat <- transform(dat, Timestamp = decode.ISO8601(Timestamp))
-	return(dat)
+	times <- decode.ISO8601(dat$Timestamp)
+	z <- zoo(dat[,datastream], order.by=times)
+	return(z)
 }

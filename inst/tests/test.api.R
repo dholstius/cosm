@@ -15,8 +15,8 @@ test_that('getFeed', {
 
 datastream <- 'Temperature'
 
-test_that('getDatastream', {
-	latest <- getDatastream(feed, datastream, key)
+test_that('getDatapoint', {
+	latest <- getDatapoint(feed, datastream, key)
 })
 
 test_that('queryDatastream', {
