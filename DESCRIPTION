@@ -3,7 +3,9 @@ Type: Package
 Title: Provides a rudimentary interface to the Pachube API
 Version: 0.1
 Depends:
-    RCurl
+    RCurl,
+    XML,
+    zoo
 Date: 2012-05-02
 Author: David Holstius
 Maintainer: David Holstius <david.holstius@berkeley.edu>
