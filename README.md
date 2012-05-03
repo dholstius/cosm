@@ -1,4 +1,4 @@
 pachube
 =======
 
-R package to pull data from Pachube
+R package to pull data from Pachube.
