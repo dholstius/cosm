@@ -1,3 +1,7 @@
+require(ggplot2)
+require(reshape)
+require(scales)
+
 # ID for "UHall575AB" feed
 feed <- '57883'
 
@@ -20,7 +24,6 @@ SHT15.data <- data.frame(SHT15.zoo, Timestamp=index(SHT15.zoo))
 DC1700.data <- data.frame(DC1700.zoo, Timestamp=index(DC1700.zoo))
 
 # Plot temperature data with different loess smoothers
-require(ggplot2)
 scale.timestamp <- scale_x_datetime('Timestamp', 
 	breaks = date_breaks('4 hours'),
 	minor_breaks = date_breaks('1 hour'),
@@ -32,7 +35,6 @@ show(p + geom_smooth(span=0.5))
 show(p + geom_smooth(span=0.2))
 
 # Plot two series ...
-require(reshape)
 molten <- melt(DC1700.data, id.var='Timestamp')
 p <- ggplot(molten, aes(Timestamp, value, color=variable))
 
