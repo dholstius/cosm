@@ -4,10 +4,22 @@ if (is.null(getOption('digits.secs'))) {
 
 .ISO8601 <- '%Y-%m-%dT%H:%M:%OS%z'
 
+#' encode.ISO8601
+#'
+#' @param x		a POSIX object
+#' @param ...	further arguments to strftime
+#'
+#' @export
 encode.ISO8601 <- function(x, ...) {
 	strftime(x, format=.ISO8601, ...)	
 }
 
+#' decode.ISO8601
+#'
+#' @param x		a character object
+#' @param ...	further arguments to strptime
+#'
+#' @export
 decode.ISO8601 <- function(x, ...) {
 	parse.named <- function(res, result) {
 		f <- function(i) {

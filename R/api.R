@@ -30,6 +30,16 @@ getDatapoint <- function(feed, datastream, key) {
 	return(z)
 }
 
+#' queryDatastream
+#'
+#' Fetch time-series data from Pachube
+#'
+#' @param feed			feed ID (ex: '57883')
+#' @param datastream	datastream ID (ex: 'Temperature')
+#' @param key			Pachube API key (for the given feed)
+#' @param ...			query string arguments, of the form key=value
+#'
+#' @export
 queryDatastream <- function(feed, datastream, key, ...) {
 	require(zoo)
 	url <- datastreamUrl(feed, datastream, format='csv')
