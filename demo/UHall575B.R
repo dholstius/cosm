@@ -21,6 +21,10 @@ DC1700.data <- data.frame(DC1700.zoo, Timestamp=index(DC1700.zoo))
 
 # Plot temperature data with different loess smoothers
 require(ggplot2)
+scale.timestamp <- scale_x_datetime('Timestamp', 
+	breaks = date_breaks('4 hours'),
+	minor_breaks = date_breaks('1 hour'),
+	labels = date_format('%m/%d %H:%M'))
 p <- ggplot(SHT15.data, aes(Timestamp, Temperature))
 p <- p + geom_point() + scale.timestamp
 show(p)
@@ -43,11 +47,4 @@ all.data <- merge(Temperature, Humidity, PM_Large, PM_Small)
 all.data <- data.frame(all.data, Timestamp=index(all.data))
 p <- ggplot(melt(all.data, id.var='Timestamp'), aes(Timestamp, value))
 p <- p + geom_point() + geom_smooth(span=0.2) + facet_wrap(~ variable, ncol=1, scales='free_y')
-show(p)
-
-# The 'Timestamp' scale can be customized
-scale.timestamp <- scale_x_datetime('Timestamp', 
-	breaks = date_breaks('4 hours'),
-	minor_breaks = date_breaks('1 hour'),
-	labels = date_format('%m/%d %H:%M'))
 show(p + scale.timestamp)
