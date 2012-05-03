@@ -1,0 +1,15 @@
+Package: pachube
+Type: Package
+Title: Provides a rudimentary interface to the Pachube API
+Version: 0.1
+Depends:
+    RCurl
+Date: 2012-05-02
+Author: David Holstius
+Maintainer: David Holstius <david.holstius@berkeley.edu>
+Description: Use it to pull from feeds into data.frames
+License: BSD
+Collate:
+    'ISO8601.R'
+    'pachube-internal.R'
+    'api.R'
