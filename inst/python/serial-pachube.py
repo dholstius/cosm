@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(
     example usage for Dylos DC1100 plugged into /dev/tty.usbserial:
 
     $ python serial-pachube.py /dev/tty.usbserial \\
-        FEED_ID API_KEY --datastreams PM_Small PM_Large
+        FEED_ID API_KEY PM_Small PM_Large
 
     where FEED_ID is something like 5888 and API_KEY is your Pachube API key
 
@@ -44,7 +44,6 @@ print "OK"
 while True:
 	try:
 		readings = ser.readline().strip().split(',')
-		assert len(readings) == len(args.datastreams)
 		pachube = eeml.Pachube(feed_url, feed_key)
 		pairs = zip(args.datastreams, readings)
 		print(pairs)
@@ -55,9 +54,7 @@ while True:
 		print "Interrupted, exiting"
 		ser.close()
 		sys.exit(1)
-	except AssertionError:
-		print "Reading from TTY failed, retrying"
-		continue
-	except:
-		print "Something else failed, retrying"
+	except Exception, e:
+		print e
+		print "Retrying ..."
 		continue
