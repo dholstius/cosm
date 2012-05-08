@@ -1,9 +1,3 @@
-if (is.null(getOption('digits.secs'))) {
-	message('Use options(digits.secs = 3) to get/set fractional seconds')
-}
-
-.ISO8601 <- '%Y-%m-%dT%H:%M:%OS%z'
-
 #' encode.ISO8601
 #'
 #' @param x		a POSIX object

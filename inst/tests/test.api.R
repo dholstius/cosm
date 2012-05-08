@@ -2,26 +2,21 @@ context('API')
 
 feed <- '57883'
 key <- 'bZW0wu4jbqMrkzHhapw8E9axBHaSAKx5YmE4TndXejRqOD0g'
-
-test_that('feedUrl', {
-	url <- feedUrl(feed, format='csv')
-	expect_equal(url, 'http://api.pachube.com/v2/feeds/57883.csv')
-})
+d <- ISOdate(2012, 5, 4)
+start <- encode.ISO8601(d)
 
 test_that('getFeed', {
-	info <- getFeedInfo(feed, key)
-	expect_true(is.list(info))
+	object <- getFeed(feed, key, start=start)
+	expect_true(is.list(object))
+	expect_true(inherits(object, 'list'))
+	expect_true(inherits(object, 'Feed'))
+	expect_equal(object$location$name, 'Berkeley, CA')
 })
 
-datastream <- 'Temperature'
+datastream <- 'PM_Small'
 
-test_that('getDatapoint', {
-	latest <- getDatapoint(feed, datastream, key)
-})
-
-test_that('queryDatastream', {
-	history <- queryDatastream(feed, datastream, key, 
-		start = encode.ISO8601(Sys.time() - 3600), 
-		interval = 60)
-	show(tail(history))
+test_that('getDatapoints', {
+	object <- getDatapoints(feed, datastream, key, start=start)
+	expect_true(inherits(object, 'zoo'))
+	expect_true(inherits(object, 'Datapoints'))
 })

@@ -1,7 +1,3 @@
-require(ggplot2)
-require(reshape)
-require(scales)
-
 # ID for "UHall575AB" feed
 feed <- '57883'
 
@@ -24,10 +20,7 @@ SHT15.data <- data.frame(SHT15.zoo, Timestamp=index(SHT15.zoo))
 DC1700.data <- data.frame(DC1700.zoo, Timestamp=index(DC1700.zoo))
 
 # Plot temperature data with different loess smoothers
-scale.timestamp <- scale_x_datetime('Timestamp', 
-	breaks = date_breaks('4 hours'),
-	minor_breaks = date_breaks('1 hour'),
-	labels = date_format('%m/%d %H:%M'))
+require(ggplot2)
 p <- ggplot(SHT15.data, aes(Timestamp, Temperature))
 p <- p + geom_point() + scale.timestamp
 show(p)
@@ -35,6 +28,7 @@ show(p + geom_smooth(span=0.5))
 show(p + geom_smooth(span=0.2))
 
 # Plot two series ...
+require(reshape)
 molten <- melt(DC1700.data, id.var='Timestamp')
 p <- ggplot(molten, aes(Timestamp, value, color=variable))
 
@@ -44,9 +38,21 @@ show(p + geom_line())
 # ... or on different charts, with different y scales
 show(p + geom_line() + facet_wrap(~ variable, ncol=1, scales='free_y'))
 
+# ... or as a trajectory in state-space
+molten <- melt(SHT15.data, id.var='Timestamp')
+p <- ggplot(molten, aes(Temperature, Humidity, color=Timestamp))
+show(p + geom_path() + geom_text(aes(label=strftime(Timestamp, '%H:%M')), size=3))
+
 # Here is a plot of all the series together
 all.data <- merge(Temperature, Humidity, PM_Large, PM_Small)
 all.data <- data.frame(all.data, Timestamp=index(all.data))
 p <- ggplot(melt(all.data, id.var='Timestamp'), aes(Timestamp, value))
 p <- p + geom_point() + geom_smooth(span=0.2) + facet_wrap(~ variable, ncol=1, scales='free_y')
+show(p)
+
+# The 'Timestamp' scale can be customized
+scale.timestamp <- scale_x_datetime('Timestamp', 
+	breaks = date_breaks('4 hours'),
+	minor_breaks = date_breaks('1 hour'),
+	labels = date_format('%m/%d %H:%M'))
 show(p + scale.timestamp)

@@ -1,54 +1,38 @@
-require(RCurl)
-
-datastreamUrl <- function(feed, datastream, format='csv') {
-	sprintf('http://api.pachube.com/v2/feeds/%s/datastreams/%s.%s', feed, datastream, format)
-}
-
-feedUrl <- function(feed, format='csv') {
-	sprintf('http://api.pachube.com/v2/feeds/%s.%s', feed, format)
-}
-
-getFeedInfo <- function(feed, key) {
-	require(XML)
-	url <- feedUrl(feed, format='xml')
-	request.header <- c(`X-PachubeApiKey`=key)
-	response.content <- getURLContent(url, httpheader=request.header)
-	root <- xmlTreeParse(response.content)
-	info <- xmlToList(root$doc$children$eeml)
-	return(info)
-}
-
-getDatapoint <- function(feed, datastream, key) {
-	require(zoo)
-	url <- datastreamUrl(feed, datastream, format='csv')
-	request.header <- c(`X-PachubeApiKey`=key)
-	response.content <- getURLContent(url, httpheader=request.header)
-	dat <- read.csv(textConnection(response.content), header=FALSE, stringsAsFactors=FALSE)
-	names(dat) <- c('Timestamp', datastream)
-	times <- decode.ISO8601(dat$Timestamp)
-	z <- zoo(dat[,datastream], order.by=times)
-	return(z)
-}
-
-#' queryDatastream
+#' getFeed
 #'
-#' Fetch time-series data from Pachube
+#' Fetch data from Pachube
 #'
-#' @param feed			feed ID (ex: '57883')
-#' @param datastream	datastream ID (ex: 'Temperature')
-#' @param key			Pachube API key (for the given feed)
-#' @param ...			query string arguments, of the form key=value
-#'
+#' @param feed			feed ID
+#' @param key			API key
+#' @param ...			(optional) query string arguments, of the form key=value
+#' @return				a Feed object (inherits from list)
+#' @note				pass per_page=1000 to get the maximum number of results
+#' @rdname get
 #' @export
-queryDatastream <- function(feed, datastream, key, ...) {
-	require(zoo)
-	url <- datastreamUrl(feed, datastream, format='csv')
-	request.header <- c(`X-PachubeApiKey`=key)
-	request.options <- curlOptions(httpheader=request.header)
-	response.content <- getForm(url, ..., .opts = request.options)
-	dat <- read.csv(textConnection(response.content), header=FALSE, stringsAsFactors=FALSE)
-	names(dat) <- c('Timestamp', datastream)
-	times <- decode.ISO8601(dat$Timestamp)
-	z <- zoo(dat[,datastream], order.by=times)
+getFeed <- function(feed, key, ...) {
+	url <- feedUrl(feed)
+	header <- httpHeader(key)
+	content <- httpGet(url, header, ...)
+	parsed <- fromJSON(content)
+	object <- as.Feed(parsed)
+	class(object) <- addClass(object, 'Feed')
+	return(object)
+}
+
+#' getDatapoints
+#'
+#' Fetch just the datapoints from a given datastream
+#'
+#' @param datastream	datastream ID
+#' @return				a zoo object
+#' @rdname get
+#' @export
+getDatapoints <- function(feed, datastream, key, ...) {
+	url <- datastreamUrl(feed, datastream)
+	header <- httpHeader(key, accept='text/csv')
+	content <- httpGet(url, header, ...)
+	data <- fromCSV(content, col.names=c('timestamp', 'value'))
+	z <- with(data, zoo(value, timestamp))
+	class(z) <- addClass(z, 'Datapoints')
 	return(z)
 }
