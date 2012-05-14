@@ -22,11 +22,19 @@ decode.ISO8601 <- function(x, ...) {
 			substring(res[i], st, st + attr(result, "capture.length")[i, ] - 1)
 		}
 		m <- do.call(rbind, lapply(seq_along(res), f))
-		colnames(m) <- attr(result, "capture.names")
-		return(m)
+		if (is.null(m)) {
+			return(NULL)
+		} else {
+			colnames(m) <- attr(result, "capture.names")
+			return(m)
+		}
 	}
 	pattern <- '(?<date>[0-9]{4}-[0-9]{2}-[0-9]{2})T(?<time>[0-9]{2}:[0-9]{2}:[.0-9]+)(?<offset>[-+:0-9Z]*)'
 	parts <- parse.named(x, regexpr(pattern, x, perl=TRUE))
-	cleaned <- with(as.data.frame(parts), paste(date, 'T', time, sub('Z', '+0000', sub(':', '', offset)), sep=''))
-	strptime(cleaned, format=.ISO8601, ...)
+	if (is.null(parts)) {
+		return(NULL)
+	} else {
+		cleaned <- with(as.data.frame(parts), paste(date, 'T', time, sub('Z', '+0000', sub(':', '', offset)), sep=''))
+		return(strptime(cleaned, format=.ISO8601, ...))
+	}
 }

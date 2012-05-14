@@ -5,7 +5,7 @@
 \usage{
   httpHeader(key, accept)
 
-  httpGet(url, header, ...)
+  httpGet(url, header, ..., per_page = 1000)
 }
 \arguments{
   \item{key}{Pachube API key}

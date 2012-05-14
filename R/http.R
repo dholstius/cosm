@@ -24,10 +24,15 @@ httpHeader <- function(key, accept) {
 #' @return			character
 #' @rdname http
 #' @export
-httpGet <- function(url, header, ...) {
+httpGet <- function(url, header, ..., per_page=1000) {
 	if (missing(...)) {
 		getURLContent(url, httpheader=header)	
 	} else {
-		getForm(url, ..., .opts=list(httpheader=header))
+		# ISO8601-encode any timestamp arguments, then call RCurl::getForm()
+		args <- list(uri=url, ..., per_page=per_page, .opts=list(httpheader=header))
+		is.timestamp <- function(x) inherits(x, c('POSIXct', 'POSIXlt'))
+		i <- sapply(args, is.timestamp)
+		args[i] <- lapply(args[i], encode.ISO8601)
+		do.call('getForm', args)
 	}
 }
