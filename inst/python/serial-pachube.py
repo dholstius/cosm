@@ -33,7 +33,7 @@ parser.add_argument("key", help="API key with write access to given feed")
 parser.add_argument("datastreams", metavar="datastream", nargs="+", help="datastream(s) to update")
 parser.add_argument("--baud", dest="baud", type=int, help="baud rate", default=9600)
 parser.add_argument("--timeout", dest="timeout", type=int, help="read timeout (in seconds)", default=None)
-parser.add_argument("--log", nargs='?', dest="log_file", help="log readings to FILE", metavar = "FILE", default='')
+parser.add_argument("--no-log", dest="log", help="don't log readings to file", action="store_true", default=False)
 parser.add_argument("--quiet", dest = "verbose", help = "suppress DEBUG messages from being printed to console", action = "store_false", default = True)
 
 args = parser.parse_args()
@@ -53,12 +53,13 @@ else:
 logger.addHandler(console_handler)
 
 # (optional) add a file handler at level INFO
-if args.log_file is not None:
-    log_file = args.log_file or (logger_name + ".log")
-    file_handler = TimedRotatingFileHandler(log_file, "midnight", utc=True)
+if args.log is not None:
+    log_file = logger_name + ".log"
+    file_handler = TimedRotatingFileHandler(log_file, "midnight", utc=False)
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
+    print "Logging to %s" % log_file
 
 # parameters
 feed_url = "/v2/feeds/%s.xml" % (args.feed,)
@@ -89,6 +90,3 @@ while True:
         print e
         print "Retrying ..."
         continue
-
-if log_file is not None:
-    print "Output written to %s" % log_file
