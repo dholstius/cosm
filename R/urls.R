@@ -6,8 +6,11 @@
 #'
 #' @rdname urls
 #' @export
-feedUrl <- function(feed) {
-	sprintf('http://api.pachube.com/v2/feeds/%s', feed)
+feedUrl <- function(feed, format) {
+	url <- sprintf('http://api.pachube.com/v2/feeds/%s', feed)
+	if (!missing(format))
+		url <- paste(url, format, sep='.')
+	return(url)
 }
 
 #' datastreamUrl

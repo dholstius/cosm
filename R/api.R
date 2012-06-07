@@ -21,18 +21,21 @@ getFeed <- function(feed, key, ...) {
 
 #' getDatapoints
 #'
-#' Fetch just the datapoints from a given datastream
+#' Fetch datapoints from a given feed or datastream
 #'
-#' @param datastream	datastream ID
+#' @param datastream	datastream ID or IDs (optional)
 #' @return				a zoo object
 #' @rdname get
 #' @export
-getDatapoints <- function(feed, datastream, key, ...) {
-	url <- datastreamUrl(feed, datastream)
-	header <- httpHeader(key, accept='text/csv')
-	content <- httpGet(url, header, ...)
-	data <- fromCSV(content, col.names=c('timestamp', 'value'))
-	z <- with(data, zoo(value, timestamp))
+getDatapoints <- function(feed, key, datastreams, ...) {
+	args <- list(url=feedUrl(feed), header=httpHeader(key, accept='text/csv'), ...)
+	if (!missing(datastreams)) 
+		args <- c(datastreams=paste(datastreams, collapse=','), args)
+	content <- do.call('httpGet', args)
+	datapoints <- fromCSV(content, col.names=c('datastream', 'timestamp', 'value'))
+	wideFormat <- reshape(datapoints, direction='wide', timevar='datastream', idvar='timestamp', v.names='value')
+	names(wideFormat)[-1] <- sub("^value.", "", names(wideFormat)[-1])
+	z <- zoo(wideFormat[,-1], order.by=wideFormat[,1])
 	class(z) <- addClass(z, 'Datapoints')
 	return(z)
 }
