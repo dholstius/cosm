@@ -23,7 +23,7 @@ getFeed <- function(feed, key, ...) {
 #'
 #' Fetch datapoints from a given feed or datastream
 #'
-#' @param datastream	datastream ID or IDs (optional)
+#' @param datastream	datastream ID or IDs (optional; if none supplied will return all)
 #' @return				a zoo object
 #' @rdname get
 #' @export
