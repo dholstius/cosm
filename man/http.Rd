@@ -8,9 +8,9 @@
   httpGet(url, header, ..., per_page = 1000)
 }
 \arguments{
-  \item{key}{Pachube API key}
+  \item{key}{Cosm API key}
 
-  \item{url}{Pachube url (see \link{feedUrl})}
+  \item{url}{Cosm url (see \link{feedUrl})}
 
   \item{header}{see \link{httpHeader}}
 }

@@ -23,7 +23,7 @@
   a zoo object
 }
 \description{
-  Fetch data from Pachube
+  Fetch data from Cosm
 
   Fetch just the datapoints from a given datastream
 }

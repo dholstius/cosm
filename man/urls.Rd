@@ -13,8 +13,8 @@
   \item{feed}{feed ID}
 }
 \description{
-  Construct the URL for a Pachube feed
+  Construct the URL for a Cosm feed
 
-  Construct the URL for a Pachube datastream
+  Construct the URL for a Cosm datastream
 }
 

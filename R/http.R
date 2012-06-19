@@ -2,7 +2,7 @@
 #'
 #' Construct an object to serve as a request header in an RCurl call
 #'
-#' @param key		Pachube API key
+#' @param key		Cosm API key
 #' @return			a list
 #' @rdname http
 #' @export
@@ -11,7 +11,7 @@ httpHeader <- function(key, accept) {
 	if (!missing(accept))
 		object[["Accept"]] <- accept
 	if (!missing(key))
-		object[["X-PachubeApiKey"]] <- key
+		object[["X-CosmApiKey"]] <- key
 	return(object)
 }
 
@@ -19,7 +19,7 @@ httpHeader <- function(key, accept) {
 #'
 #' Wrapper for similar RCurl methods
 #'
-#' @param url		Pachube url (see \link{feedUrl})
+#' @param url		Cosm url (see \link{feedUrl})
 #' @param header	see \link{httpHeader}
 #' @return			character
 #' @rdname http

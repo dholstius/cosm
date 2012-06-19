@@ -1,13 +1,13 @@
 #' feedUrl
 #'
-#' Construct the URL for a Pachube feed
+#' Construct the URL for a Cosm feed
 #'
 #' @param feed	feed ID
 #'
 #' @rdname urls
 #' @export
 feedUrl <- function(feed, format) {
-	url <- sprintf('http://api.pachube.com/v2/feeds/%s', feed)
+	url <- sprintf('http://api.cosm.com/v2/feeds/%s', feed)
 	if (!missing(format))
 		url <- paste(url, format, sep='.')
 	return(url)
@@ -15,7 +15,7 @@ feedUrl <- function(feed, format) {
 
 #' datastreamUrl
 #'
-#' Construct the URL for a Pachube datastream
+#' Construct the URL for a Cosm datastream
 #'
 #' @param feed	feed ID
 #'

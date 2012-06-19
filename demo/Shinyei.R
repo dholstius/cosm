@@ -1,4 +1,4 @@
-require(pachube)
+require(cosm)
 require(lubridate)
 		
 key <- 'bZW0wu4jbqMrkzHhapw8E9axBHaSAKx5YmE4TndXejRqOD0g'

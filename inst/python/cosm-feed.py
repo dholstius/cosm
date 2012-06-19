@@ -2,7 +2,7 @@
 #
 # serial-pachube.py
 #
-# Pipes CSV data from a TTY to Pachube.com
+# Pipes CSV data from a TTY to Cosm.com
 #
 
 import sys, time, os
@@ -20,21 +20,20 @@ parser = argparse.ArgumentParser(
 
     example usage for Dylos DC1100 plugged into /dev/device.usbserial:
 
-    $ python serial-pachube.py /dev/device.usbserial \\
-        FEED_ID API_KEY PM_Small PM_Large
+    $ python cosm-feed.py /dev/tty.usbserial $FEED $KEY total large
 
-    where FEED_ID is something like 5888 and API_KEY is your Pachube API key
+    where $FEED is the feed ID (ex: 5888) and $KEY is your Cosm API key
 
   ****************************************************************************""",)
 
 parser.add_argument("device", help="tty device")
-parser.add_argument("feed", help="Pachube feed ID")
+parser.add_argument("feed", help="Cosm feed ID")
 parser.add_argument("key", help="API key with write access to given feed")
 parser.add_argument("datastreams", metavar="datastream", nargs="+", help="datastream(s) to update")
 parser.add_argument("--baud", dest="baud", type=int, help="baud rate", default=9600)
 parser.add_argument("--timeout", dest="timeout", type=int, help="read timeout (in seconds)", default=None)
 parser.add_argument("--no-log", dest="log", help="don't log readings to file", action="store_true", default=False)
-parser.add_argument("--quiet", dest = "verbose", help = "suppress DEBUG messages from being printed to console", action = "store_false", default = True)
+parser.add_argument("--verbose", dest="verbose", help="print DEBUG messages to console", action="store_true", default = False)
 
 args = parser.parse_args()
 

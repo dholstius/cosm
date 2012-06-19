@@ -1,6 +1,6 @@
 #' getFeed
 #'
-#' Fetch data from Pachube
+#' Fetch data from Cosm
 #'
 #' @param feed			feed ID
 #' @param key			API key

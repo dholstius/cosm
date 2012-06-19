@@ -1,6 +1,6 @@
-Package: pachube
+Package: cosm
 Type: Package
-Title: Provides a rudimentary interface to the Pachube API
+Title: Provides a rudimentary interface to the Cosm API
 Version: 0.1
 Depends:
     RCurl,
@@ -12,8 +12,8 @@ Maintainer: David Holstius <david.holstius@berkeley.edu>
 Description: Use it to pull from feeds into data.frames
 License: FILE
 Collate:
-    'pachube-package.R'
-    'pachube-internal.R'
+    'cosm-package.R'
+    'cosm-internal.R'
     'util.R'
     'ISO8601.R'
     'urls.R'
