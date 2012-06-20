@@ -1,9 +1,5 @@
-require(cosm)
 key <- Sys.getenv('COSM_API_KEY')
-if (key == "") {
-	key <- readline('Cosm API key: ')
-}
+if (key == "") key <- readline('Cosm API key: ')
 feed <- readline('Cosm feed ID: ')
-now <- Sys.time()
 datapoints <- getDatapoints(feed, key, start=ISOdate(2012, 06, 01), duration="3hours", interval=60)
 plot(datapoints)

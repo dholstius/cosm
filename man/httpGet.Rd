@@ -1,29 +1,28 @@
-\name{httpHeader}
+\name{httpGet}
 \alias{httpGet}
-\alias{httpHeader}
-\title{httpHeader}
+\title{httpGet}
 \usage{
-  httpHeader(key, accept)
-
   httpGet(url, header, curl = getCurlHandle(), ...,
     per_page = 1000)
 }
 \arguments{
-  \item{key}{Cosm API key}
-
   \item{url}{Cosm url (see \link{feedUrl})}
 
   \item{header}{see \link{httpHeader}}
+
+  \item{curl}{curl handle (reusable if making multiple
+  calls)}
+
+  \item{per_page}{maximum number of results (pass page=2 to
+  fetch more)}
+
+  \item{...}{additional key-value pairs (see
+  http://cosm.com/docs/)}
 }
 \value{
-  a list
-
   character
 }
 \description{
-  Construct an object to serve as a request header in an
-  RCurl call
-
   Wrapper for similar RCurl methods
 }
 

@@ -2,10 +2,9 @@
 #'
 #' Construct the URL for a Cosm feed
 #'
-#' @param feed	feed ID
+#' @param feed		feed ID
+#' @param format	(optional) "csv", "xml", or "json"
 #'
-#' @rdname urls
-#' @export
 feedUrl <- function(feed, format) {
 	url <- sprintf('http://api.cosm.com/v2/feeds/%s', feed)
 	if (!missing(format))
@@ -17,10 +16,9 @@ feedUrl <- function(feed, format) {
 #'
 #' Construct the URL for a Cosm datastream
 #'
-#' @param feed	feed ID
+#' @param feed			feed ID
+#' @param datastream	datastream ID
 #'
-#' @rdname urls
-#' @export
 datastreamUrl <- function(feed, datastream) {
 	sprintf('%s/datastreams/%s', feedUrl(feed), datastream)
 }

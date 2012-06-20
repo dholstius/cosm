@@ -1,20 +1,15 @@
-\name{feedUrl}
+\name{datastreamUrl}
 \alias{datastreamUrl}
-\alias{feedUrl}
-\title{feedUrl}
+\title{datastreamUrl}
 \usage{
-  feedUrl(feed, format)
-
   datastreamUrl(feed, datastream)
 }
 \arguments{
   \item{feed}{feed ID}
 
-  \item{feed}{feed ID}
+  \item{datastream}{datastream ID}
 }
 \description{
-  Construct the URL for a Cosm feed
-
   Construct the URL for a Cosm datastream
 }
 

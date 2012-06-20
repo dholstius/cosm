@@ -3,8 +3,8 @@
 #' Construct an object to serve as a request header in an RCurl call
 #'
 #' @param key		Cosm API key
-#' @return			a list
-#' @rdname http
+#' @param accept	text/csv, application/json, etc.
+#' @return			list object
 #' @export
 httpHeader <- function(key, accept) {
 	object <- list()
@@ -21,8 +21,10 @@ httpHeader <- function(key, accept) {
 #'
 #' @param url		Cosm url (see \link{feedUrl})
 #' @param header	see \link{httpHeader}
+#' @param curl		curl handle (reusable if making multiple calls)
+#' @param per_page	maximum number of results (pass page=2 to fetch more)
+#' @param ...		additional key-value pairs (see http://cosm.com/docs/)
 #' @return			character
-#' @rdname http
 #' @export
 httpGet <- function(url, header, curl=getCurlHandle(), ..., per_page=1000) {
 	if (missing(...)) {
