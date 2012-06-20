@@ -5,7 +5,8 @@
 \usage{
   httpHeader(key, accept)
 
-  httpGet(url, header, ..., per_page = 1000)
+  httpGet(url, header, curl = getCurlHandle(), ...,
+    per_page = 1000)
 }
 \arguments{
   \item{key}{Cosm API key}

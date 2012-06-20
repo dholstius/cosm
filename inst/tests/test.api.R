@@ -16,7 +16,7 @@ test_that('getFeed works', {
 
 test_that('getDatapoints returns all datastreams by default', {
 	object <- getDatapoints(feed, key, start=t0, duration='1hour')
-	expect_true(inherits(object, 'xts'))
+	expect_true(inherits(object, 'zoo'))
 	expect_true(inherits(object, 'Datapoints'))
 	expect_true(length(colnames(object)) > 4)
 	datastreams <- names(getFeed(feed, key)$datastreams)

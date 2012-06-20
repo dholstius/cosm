@@ -3,7 +3,7 @@
 \alias{feedUrl}
 \title{feedUrl}
 \usage{
-  feedUrl(feed)
+  feedUrl(feed, format)
 
   datastreamUrl(feed, datastream)
 }

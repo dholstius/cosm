@@ -24,11 +24,11 @@ getFeed <- function(feed, key, ...) {
 #' Fetch datapoints from a given feed or datastream
 #'
 #' @param datastream	datastream ID or IDs (optional; if none supplied will return all)
-#' @return				xts object
+#' @return				zoo object
 #' @rdname get
 #' @export
 getDatapoints <- function(feed, key, datastreams, ...) {
-	require(xts)
+	require(zoo)
 	args <- list(url=feedUrl(feed), header=httpHeader(key, accept='text/csv'), ...)
 	if (!missing(datastreams)) {
 		args <- c(datastreams=paste(datastreams, collapse=','), args)
@@ -36,7 +36,7 @@ getDatapoints <- function(feed, key, datastreams, ...) {
 	content <- do.call('httpGet', args)
 	long <- fromCSV(content, col.names=c('datastream', 'timestamp', 'value'))
 	wide <- reshape(long, direction='wide', timevar='datastream', idvar='timestamp', v.names='value')
-	object <- xts(wide[,-1], order.by=wide[,1])
+	object <- zoo(wide[,-1], order.by=wide[,1])
 	colnames(object) <- sub("^value.", "", names(wide)[-1])
 	class(object) <- addClass(object, 'Datapoints')
 	return(object)
