@@ -9,8 +9,8 @@ Depends:
 Date: 2012-05-02
 Author: David Holstius
 Maintainer: David Holstius <david.holstius@berkeley.edu>
-Description: Use it to pull from feeds into data.frames
-License: FILE
+Description: Cosm (http://www.cosm.com) is a platform, API and community focused on growing the Internet of Things. The Cosm API provides key-based read/write access to public and private datastreams from a multitude of connected devices. This package provides a limited (read-only) subset of the full API. It's just enough to pull data into the R computing environment (http://www.r-project.org/), so that users can leverage a rich 3rd-party ecosystem of freely available, open-source libraries for statistical analysis and visualization.
+License: BSD
 Collate:
     'cosm-package.R'
     'cosm-internal.R'
