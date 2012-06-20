@@ -27,4 +27,6 @@ test_that('getDatapoints returns selected datastreams', {
 	datastreams <- c('SHT15_H_relative', 'SHT15_H_raw')
 	object <- getDatapoints(feed, key, datastreams=datastreams, start=t0, duration='1hour')
 	expect_equal(colnames(object), datastreams)
+	datastreams <- 'SHT15_H_raw'
+	object <- getDatapoints(feed, key, datastreams=datastreams, start=t0, duration='1hour')
 })

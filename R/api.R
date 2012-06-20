@@ -37,7 +37,10 @@ getDatapoints <- function(feed, key, datastreams, ...) {
 	long <- fromCSV(content, col.names=c('datastream', 'timestamp', 'value'))
 	wide <- reshape(long, direction='wide', timevar='datastream', idvar='timestamp', v.names='value')
 	object <- zoo(wide[,-1], order.by=wide[,1])
-	colnames(object) <- sub("^value.", "", names(wide)[-1])
+	datastreams <- sub("^value.", "", names(wide)[-1])
+	if (length(datastreams) > 1) {
+		colnames(object) <- datastreams
+	}
 	class(object) <- addClass(object, 'Datapoints')
 	return(object)
 }
