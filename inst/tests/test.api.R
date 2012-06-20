@@ -1,9 +1,12 @@
 context('API')
 
-feed <- '57883'
-key <- 'bZW0wu4jbqMrkzHhapw8E9axBHaSAKx5YmE4TndXejRqOD0g'
+ID <- '57883'
+key <- Sys.getenv('COSM_API_KEY')
+stopifnot(key != "")
 
-test_that('getFeed', {
+t0 <- ISOdate(2012, 06, 01)
+
+test_that('getFeed works', {
 	object <- getFeed(feed, key)
 	expect_true(is.list(object))
 	expect_true(inherits(object, 'list'))
@@ -11,13 +14,17 @@ test_that('getFeed', {
 	expect_equal(object$location$name, 'Berkeley, CA')
 })
 
-now <- encode.ISO8601(Sys.time())
+test_that('getDatapoints returns all datastreams by default', {
+	object <- getDatapoints(feed, key, start=t0, duration='1hour')
+	expect_true(inherits(object, 'xts'))
+	expect_true(inherits(object, 'Datapoints'))
+	expect_true(length(colnames(object)) > 4)
+	datastreams <- names(getFeed(feed, key)$datastreams)
+	expect_true(all(colnames(object) %in% datastreams))
+})
 
-test_that('getDatapoints', {
-	z <- getDatapoints(feed, key, duration='1day', end=now)
-	expect_true(inherits(z, 'zoo'))
-	expect_true(inherits(z, 'Datapoints'))
-	SHT15_H_relative <- getDatapoints(feed, key, datastream='SHT15_H_relative', duration='1day', end=now)
-	# FAILS due to length mismatch (bug in Cosm API?):
-	# expect_equal(SHT15_H_relative, z$SHT15_H_relative)
+test_that('getDatapoints returns selected datastreams', {
+	datastreams <- c('SHT15_H_relative', 'SHT15_H_raw')
+	object <- getDatapoints(feed, key, datastreams=datastreams, start=t0, duration='1hour')
+	expect_equal(colnames(object), datastreams)
 })

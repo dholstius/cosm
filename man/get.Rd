@@ -18,9 +18,9 @@
   \item{datastream}{datastream ID}
 }
 \value{
-  a Feed object (inherits from list)
+  Feed object (Feed inherits from list)
 
-  a zoo object
+  xts object
 }
 \description{
   Fetch data from Cosm

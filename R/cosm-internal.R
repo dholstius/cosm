@@ -21,7 +21,7 @@ as.Datapoints <- function(object) {
 	if (!is.null(object)) {
 		values <- sapply(object, '[[', id='value')
 		timestamps <- sapply(object, '[[', id='at')
-		object <- zoo(values, decode.ISO8601(timestamps))
+		object <- xts(values, decode.ISO8601(timestamps))
 		class(object) <- addClass(object, 'Datapoints')
 	}
 	return(object)

@@ -11,7 +11,7 @@ httpHeader <- function(key, accept) {
 	if (!missing(accept))
 		object[["Accept"]] <- accept
 	if (!missing(key))
-		object[["X-CosmApiKey"]] <- key
+		object[["X-ApiKey"]] <- key
 	return(object)
 }
 

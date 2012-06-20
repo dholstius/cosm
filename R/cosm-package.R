@@ -1,6 +1,7 @@
 require(RCurl)
 require(rjson)
+require(xts)
 
 if (is.null(getOption('digits.secs'))) {
-	message('Use options(digits.secs = 6) to get/set fractional seconds')
+	message('Set options(digits.secs=3) for millisecond precision')
 }
