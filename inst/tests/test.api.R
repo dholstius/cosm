@@ -1,6 +1,6 @@
 context('API')
 
-ID <- '57883'
+feed <- '57883'
 key <- Sys.getenv('COSM_API_KEY')
 stopifnot(key != "")
 
