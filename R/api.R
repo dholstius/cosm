@@ -10,7 +10,7 @@
 #' @rdname get
 #' @export
 getFeed <- function(feed, key, ...) {
-	url <- feedUrl(feed)
+	url <- feedUrl(feed, format='json')
 	header <- httpHeader(key)
 	content <- httpGet(url, header, ...)
 	parsed <- fromJSON(content)
