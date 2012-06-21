@@ -6,7 +6,12 @@
 #' @param format	(optional) "csv", "xml", or "json"
 #'
 feedUrl <- function(feed, format) {
-	url <- sprintf('http://api.cosm.com/v2/feeds/%s', feed)
+	if (inherits(feed, 'Feed')) {
+		ID <- feed$id
+	} else {
+		ID <- feed
+	} 
+	url <- sprintf('http://api.cosm.com/v2/feeds/%s', ID)
 	if (!missing(format))
 		url <- paste(url, format, sep='.')
 	return(url)
