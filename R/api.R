@@ -24,7 +24,7 @@ getFeed <- function(feed, key, ...) {
 #' Fetch datapoints from a given feed or datastream
 #'
 #' @param datastreams	datastream ID or IDs (optional; if none supplied will return all)
-#' @return				zoo object
+#' @return				zoo object, or NULL if empty
 #' @rdname get
 #' @export
 getDatapoints <- function(feed, key, datastreams, ...) {
@@ -34,6 +34,9 @@ getDatapoints <- function(feed, key, datastreams, ...) {
 		args <- c(datastreams=paste(datastreams, collapse=','), args)
 	}
 	content <- do.call('httpGet', args)
+	if (content == "") {
+		return(NULL)
+	}
 	long <- fromCSV(content, col.names=c('datastream', 'timestamp', 'value'))
 	wide <- reshape(long, direction='wide', timevar='datastream', idvar='timestamp', v.names='value')
 	object <- zoo(wide[,-1], order.by=wide[,1])
