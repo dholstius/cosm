@@ -1,12 +1,12 @@
 Package: cosm
 Type: Package
 Title: Provides a rudimentary interface to the Cosm API
-Version: 0.1
+Version: 0.2
 Depends:
     RCurl,
     rjson,
     zoo
-Date: 2012-05-02
+Date: 2012-06-27
 Author: David Holstius
 Maintainer: David Holstius <david.holstius@berkeley.edu>
 Description: Cosm (http://www.cosm.com) is a platform, API and community
@@ -21,7 +21,6 @@ License: BSD
 Collate:
     'cosm-package.R'
     'cosm-internal.R'
-    'util.R'
     'ISO8601.R'
     'urls.R'
     'http.R'
