@@ -1,3 +1,7 @@
+#
+# TODO: replace these guts with httr (once it's stable)
+#
+
 #' http_header
 #'
 #' Construct an object to serve as a request header in an RCurl call
