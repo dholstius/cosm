@@ -1,4 +1,4 @@
-#' getFeed
+#' feed_detail
 #'
 #' Fetch data from Cosm
 #'
@@ -7,33 +7,32 @@
 #' @param ...			(optional) query string arguments, of the form key=value
 #' @return				a Feed object (inherits from list)
 #' @note				pass per_page=1000 to get the maximum number of results
-#' @rdname get
 #' @export
-getFeed <- function(feed, key, ...) {
-	url <- feedUrl(feed, format='json')
-	header <- httpHeader(key)
-	content <- httpGet(url, header, ...)
+feed_detail <- function(feed, key, ...) {
+	url <- feed_url(feed, format='json')
+	header <- http_header(key)
+	content <- http_get(url, header, ...)
 	parsed <- fromJSON(content)
 	object <- as.Feed(parsed)
 	class(object) <- addClass(object, 'Feed')
 	return(object)
 }
 
-#' getDatapoints
+#' feed_history
 #'
 #' Fetch datapoints from a given feed or datastream
 #'
+#' @inheritParams 		feed_detail
 #' @param datastreams	datastream ID or IDs (optional; if none supplied will return all)
 #' @return				zoo object, or NULL if empty
-#' @rdname get
 #' @export
-getDatapoints <- function(feed, key, datastreams, ...) {
+feed_history <- function(feed, key, datastreams, ...) {
 	require(zoo)
-	args <- list(url=feedUrl(feed), header=httpHeader(key, accept='text/csv'), ...)
+	args <- list(url=feed_url(feed), header=http_header(key, accept='text/csv'), ...)
 	if (!missing(datastreams)) {
 		args <- c(datastreams=paste(datastreams, collapse=','), args)
 	}
-	content <- do.call('httpGet', args)
+	content <- do.call('http_get', args)
 	if (content == "") {
 		return(NULL)
 	}

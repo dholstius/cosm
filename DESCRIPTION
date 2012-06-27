@@ -25,4 +25,4 @@ Collate:
     'ISO8601.R'
     'urls.R'
     'http.R'
-    'api.R'
+    'views.R'

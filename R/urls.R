@@ -1,11 +1,11 @@
-#' feedUrl
+#' feed_url
 #'
 #' Construct the URL for a Cosm feed
 #'
 #' @param feed		feed ID
 #' @param format	(optional) "csv", "xml", or "json"
 #'
-feedUrl <- function(feed, format) {
+feed_url <- function(feed, format) {
 	if (inherits(feed, 'Feed')) {
 		ID <- feed$id
 	} else {
@@ -17,13 +17,13 @@ feedUrl <- function(feed, format) {
 	return(url)
 }
 
-#' datastreamUrl
+#' datastream_url
 #'
 #' Construct the URL for a Cosm datastream
 #'
 #' @param feed			feed ID
 #' @param datastream	datastream ID
 #'
-datastreamUrl <- function(feed, datastream) {
-	sprintf('%s/datastreams/%s', feedUrl(feed), datastream)
+datastream_url <- function(feed, datastream) {
+	sprintf('%s/datastreams/%s', feed_url(feed), datastream)
 }
