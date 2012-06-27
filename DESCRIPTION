@@ -1,7 +1,7 @@
 Package: cosm
 Type: Package
 Title: Provides a rudimentary interface to the Cosm API
-Version: 0.2
+Version: 0.3
 Depends:
     RCurl,
     rjson,
