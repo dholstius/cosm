@@ -1,7 +1,7 @@
 export(decode.ISO8601)
 export(encode.ISO8601)
-export(feed_history)
 export(feed_detail)
+export(feed_history)
 export(http_get)
 export(http_header)
 export(parse.named)
