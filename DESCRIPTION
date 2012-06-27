@@ -26,3 +26,4 @@ Collate:
     'urls.R'
     'http.R'
     'views.R'
+    'S3-classes.R'

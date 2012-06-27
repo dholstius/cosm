@@ -1,3 +1,13 @@
+fromCSV <- function(content, header=FALSE, stringsAsFactors=FALSE, ...) {
+	object <- read.csv(textConnection(content), 
+		header = header, 
+		stringsAsFactors = stringsAsFactors, 
+		...)
+	if ('timestamp' %in% names(object))
+		object$timestamp <- decode.ISO8601(object$timestamp)
+	return(object)
+}
+
 #' feed_detail
 #'
 #' Fetch data from Cosm
@@ -13,8 +23,7 @@ feed_detail <- function(feed, key, ...) {
 	header <- http_header(key)
 	content <- http_get(url, header, ...)
 	parsed <- fromJSON(content)
-	object <- as.Feed(parsed)
-	class(object) <- addClass(object, 'Feed')
+	object <- Feed(parsed)
 	return(object)
 }
 
@@ -38,11 +47,7 @@ feed_history <- function(feed, key, datastreams, ...) {
 	}
 	long <- fromCSV(content, col.names=c('datastream', 'timestamp', 'value'))
 	wide <- reshape(long, direction='wide', timevar='datastream', idvar='timestamp', v.names='value')
-	object <- zoo(wide[,-1], order.by=wide[,1])
-	datastreams <- sub("^value.", "", names(wide)[-1])
-	if (length(datastreams) > 1) {
-		colnames(object) <- datastreams
-	}
-	class(object) <- addClass(object, 'Datapoints')
+	colnames(wide) <- sub("^value.", "", names(wide))
+	object <- Datapoints(wide)
 	return(object)
 }
